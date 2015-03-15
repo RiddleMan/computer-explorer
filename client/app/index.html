@@ -17,15 +17,22 @@
 
     <!-- build:vulcanized elements/elements.vulcanized.html -->
     <link rel="import" href="elements/elements.html">
+    <link rel="import" href="bower_components/core-header-panel/core-header-panel.html">
+    <link rel="import" href="bower_components/core-toolbar/core-toolbar.html">
+    <link rel="import" href="bower_components/core-icons/core-icons.html">
+    <link rel="import" href="bower_components/paper-icon-button/paper-icon-button.html">
     <!-- endbuild-->
   </head>
-  <body unresolved>
-    <div class="hero-unit">
-      <yo-greeting></yo-greeting>
-      <p>You now have</p>
-      <yo-list></yo-list>
-    </div>
-
+  <body fullbleed vertical layout unresolved>
+    <!-- <ce-content></ce-content> -->
+    <core-header-panel flex>
+      <core-toolbar id="mainheader">
+        <paper-icon-button id="navicon" icon="arrow-back"></paper-icon-button>
+        <span flex>Title</span>
+        <paper-icon-button id="searchbutton" icon="search"></paper-icon-button>
+      </core-toolbar>
+      <ce-content></ce-content>
+    </core-header-panel>
     <!-- build:js scripts/app.js -->
     <script src="scripts/app.js"></script>
     <!-- endbuild-->

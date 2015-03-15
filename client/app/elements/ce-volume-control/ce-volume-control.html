@@ -1,0 +1,32 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/paper-slider/paper-slider.html">
+
+<polymer-element name="ce-volume-control" attributes="">
+  <template>
+    <style>
+      :host {
+        display: block;
+        width: 100%
+      }
+
+      paper-slider {
+        width: 100%;
+      }
+
+      paper-slider::shadow #sliderKnobInner,
+      paper-slider::shadow #sliderBar::shadow #activeProgress {
+        background-color: #f4b400;
+      }
+    </style>
+
+    <div>Volume</div>
+    <paper-slider value="23" max="100" editable></paper-slider>
+  </template>
+  <script>
+    (function () {
+      Polymer({
+        // define element prototype here
+      });
+    })();
+  </script>
+</polymer-element>
