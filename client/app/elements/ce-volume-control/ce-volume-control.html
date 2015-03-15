@@ -1,5 +1,7 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../bower_components/paper-slider/paper-slider.html">
+<link rel="import" href="../../bower_components/core-ajax/core-xhr.html">
+<link rel="import" href="../app-globals/app-globals.html">
 
 <polymer-element name="ce-volume-control" attributes="">
   <template>
@@ -18,14 +20,27 @@
         background-color: #f4b400;
       }
     </style>
+    <core-xhr id="xhr"></core-xhr>
+    <app-globals id="globals"></app-globals>
 
     <div>Volume</div>
-    <paper-slider value="23" max="100" editable></paper-slider>
+    <paper-slider value="1" max="10" editable on-change="{{changeVolume}}"></paper-slider>
   </template>
   <script>
     (function () {
       Polymer({
-        // define element prototype here
+        changeVolume: function(e, detail, sender) {
+          this.$.xhr.request({
+            url: this.$.globals.values.url + 'player/volume',
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+              volume: sender.immediateValue
+            })
+          });
+        }
       });
     })();
   </script>

@@ -11,11 +11,11 @@
     <section>
       <h3>Power management</h3>
       <div id="buttons">
-        <paper-button class="custom">
+        <paper-button class="custom" on-click="{{shutdown}}">
           <!-- <core-icon icon="clear"></core-icon> -->
           Shutdown
         </paper-button>
-        <paper-button class="custom">
+        <paper-button class="custom" on-click="{{sleep}}">
           <!-- <core-icon icon="clear"></core-icon> -->
           Sleep
         </paper-button>
@@ -25,6 +25,14 @@
   <script>
     (function () {
       Polymer({
+        shutdown: function() {
+          console.log('shutdown');
+        },
+
+        sleep: function() {
+          console.log('slepp');
+        }
+
         // define element prototype here
       });
     })();
