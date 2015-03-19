@@ -1,0 +1,80 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../app-globals/app-globals.html">
+<link rel="import" href="../ce-volume-control/ce-volume-control.html">
+<link href="../../bower_components/core-collapse/core-collapse.html" rel="import">
+<link href="../../bower_components/core-menu/core-menu.html" rel="import">
+<link href="../../bower_components/paper-dropdown/paper-dropdown.html" rel="import">
+<link href="../../bower_components/paper-item/paper-item.html" rel="import">
+<link rel="import" href="../../bower_components/core-icon/core-icon.html">
+<link rel="import" href="../../bower_components/core-icons/av-icons.html">
+
+<link href="../../bower_components/paper-dropdown-menu/paper-dropdown-menu.html" rel="import">
+
+<polymer-element name="ce-app-list" attributes="">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+    </style>
+    <core-xhr id="xhr"></core-xhr>
+    <app-globals id="globals"></app-globals>
+
+    <paper-dropdown-menu label="Choose application" on-core-select="{{changeSelected}}">
+      <paper-dropdown class="dropdown">
+        <core-menu class="menu">
+          <template repeat="{{app in applications}}">
+            <paper-item value="{{app.path}}">{{app.name}}</paper-item>
+          </template>
+        </core-menu>
+      </paper-dropdown>
+    </paper-dropdown-menu>
+    <paper-button id="runBtn" disabled?="{{ disabled }}" raised on-click="{{runCmd}}">
+      <core-icon icon="av:play-arrow"></core-icon>
+    </paper-button>
+  </template>
+  <script>
+    (function () {
+      Polymer({
+        applications: [],
+        disabled: true,
+
+        attached: function() {
+          var that = this;
+
+          this.$.xhr.request({
+            url: this.$.globals.values.url + 'apps',
+            method: 'GET',
+            callback: function(response) {
+              that.applications = JSON.parse(response).apps;
+            }
+          });
+        },
+
+        changeSelected: function(e){
+          if(e.detail.isSelected) {
+            this.disabled = false;
+            this.selected = e.detail.item.attributes.value.value;
+          } else {
+            this.disabled = true;
+            this.selected = undefined;
+          }
+        },
+
+        runCmd: function() {
+          this.$.xhr.request({
+            url: this.$.globals.values.url + 'apps',
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+              path: this.selected
+            })
+          });
+        }
+        // define element prototype here
+      });
+    })();
+  </script>
+</polymer-element>

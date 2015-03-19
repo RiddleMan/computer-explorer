@@ -1,0 +1,52 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../../bower_components/paper-dialog/paper-dialog.html">
+<link rel="import" href="../app-globals/app-globals.html">
+<link rel="import" href="../ce-volume-control/ce-volume-control.html">
+<link rel="import" href="../../bower_components/core-icon/core-icon.html">
+<link rel="import" href="../../bower_components/core-icons/av-icons.html">
+
+<polymer-element name="ce-run-cmd" attributes="">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+    </style>
+
+    <core-xhr id="xhr"></core-xhr>
+    <app-globals id="globals"></app-globals>
+
+    <paper-input id="cmdInput" label="Command"></paper-input>
+    <paper-button raised on-click="{{runCmd}}">
+      <core-icon icon="av:play-arrow"></core-icon>
+    </paper-button>
+    <paper-dialog heading="Output" id="output"></paper-dialog>
+  </template>
+  <script>
+    (function () {
+      Polymer({
+        runCmd: function() {
+          var that = this;
+          var value = this.$.cmdInput.value;
+
+          this.$.xhr.request({
+            url: this.$.globals.values.url + 'cmd',
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+              cmd: value
+            }),
+            callback: function(response) {
+              that.$.output.innerHTML = JSON.parse(response).out;
+              that.$.output.open();
+            }
+          });
+        }
+      });
+    })();
+  </script>
+</polymer-element>

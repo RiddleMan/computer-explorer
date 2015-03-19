@@ -1,6 +1,8 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../bower_components/paper-button/paper-button.html">
 <link rel="import" href="../../bower_components/core-ajax/core-xhr.html">
+<link rel="import" href="../../bower_components/core-icon/core-icon.html">
+<link rel="import" href="../../bower_components/core-icons/av-icons.html">
 <link rel="import" href="../app-globals/app-globals.html">
 <link rel="import" href="../ce-volume-control/ce-volume-control.html">
 
@@ -19,16 +21,17 @@
       <ce-volume-control></ce-volume-control>
       <div id="buttons">
         <paper-button class="custom" on-click="{{prevSong}}">
-          <!-- <core-icon icon="clear"></core-icon> -->
-          < Prev
+          <core-icon icon="av:skip-previous"></core-icon>
+          <!-- < Prev -->
         </paper-button>
         <paper-button class="custom" on-click="{{stopPlaying}}">
-          <!-- <core-icon icon="clear"></core-icon> -->
-          Play/Pause
+          <core-icon icon="av:play-arrow"></core-icon>
+          <core-icon icon="av:pause"></core-icon>
+          <!-- Play/Pause -->
         </paper-button>
         <paper-button class="custom" on-click="{{nextSong}}">
-          <!-- <core-icon icon="clear"></core-icon> -->
-          Next >
+          <core-icon icon="av:skip-next"></core-icon>
+          <!-- Next > -->
         </paper-button>
       </div>
     </section>
