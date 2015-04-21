@@ -1,0 +1,117 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/polymer-gestures/polymer-gestures.html">
+<link rel="import" href="../app-globals/app-globals.html">
+<link rel="import" href="../../bower_components/core-ajax/core-xhr.html">
+
+<polymer-element name="ce-touchpad" attributes="">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+
+      #touchpad {
+        background-color: #000;
+        width: 100%;
+        height: 202.5px;
+
+        position: relative;
+      }
+
+      #pointer {
+        position: absolute;
+        width: 10px;
+        height: 10px;
+
+        background-color: #fff;
+      }
+    </style>
+    <core-xhr id="xhr"></core-xhr>
+    <app-globals id="globals"></app-globals>
+
+    <div id="touchpad" touch-action="none">
+      <div id="pointer"></div>
+    </div>
+  </template>
+  <script>
+    (function () {
+      Polymer({
+        computerDimenstions: {
+          width: 1680,
+          height: 1050
+        },
+
+        sendRequest:function(method, pos) {
+          this.$.xhr.request({
+            url: this.$.globals.values.url + 'mouse' + method,
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+              x: pos.x,
+              y: pos.y
+            })
+          });
+        },
+
+        domReady: function() {
+          var that = this;
+          window.PolymerGestures.addEventListener(this.$.touchpad, 'track', function(e) {
+            var offsetTop = 400;
+
+            var width = 360;
+            var height = 202.5;
+
+            var x = e.clientX/width * that.computerDimenstions.width;
+            var y = (e.clientY - offsetTop)/height * that.computerDimenstions.height;
+
+            console.log('x: %d y:%d', x, y);
+
+            that.sendRequest('', {
+              x:x,
+              y:y
+            });
+
+            // that.$.pointer.style.left = e.clientX + 'px';
+            // that.$.pointer.style.top = e.clientY - offsetTop + window.scrollY + 'px';
+
+            // that.$.xhr.request({
+            //   url: that.$.globals.values.url + 'mouse',
+            //   method: 'POST',
+            //   headers: {
+            //     'Content-Type': 'application/json'
+            //   },
+            //   body: JSON.stringify({
+            //     x: x,
+            //     y: y
+            //   })
+            // });
+          },false);
+
+          window.PolymerGestures.addEventListener(this.$.touchpad, 'tap', function(e) {
+            var offsetTop = 400;
+
+            var width = 360;
+            var height = 202.5;
+
+
+            var destWidth = 1680;
+            var destHeight = 1050;
+
+            var x = e.clientX/width * destWidth;
+            var y = (e.clientY - offsetTop)/height * destHeight;
+
+            that.$.pointer.style.left = e.clientX + 'px';
+            that.$.pointer.style.top = e.clientY - offsetTop + window.scrollY + 'px';
+
+            that.sendRequest('/tap', {
+              x: x,
+              y: y
+            });
+          },false);
+        }
+      });
+    })();
+  </script>
+</polymer-element>

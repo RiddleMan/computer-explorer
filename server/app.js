@@ -32,6 +32,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/player', player);
 app.use('/cmd', require('./routes/cmd'));
 app.use('/apps', require('./routes/apps'));
+app.use('/mouse', require('./routes/mouse'));
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
