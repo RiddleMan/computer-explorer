@@ -62,9 +62,10 @@
 
             var width = 360;
             var height = 202.5;
+            var el = document.querySelector('core-header-panel');
 
             var x = e.clientX/width * that.computerDimenstions.width;
-            var y = (e.clientY - offsetTop)/height * that.computerDimenstions.height;
+            var y = (e.clientY - offsetTop + el.scroller.scrollTop)/height * that.computerDimenstions.height;
 
             console.log('x: %d y:%d', x, y);
 
@@ -73,41 +74,19 @@
               y:y
             });
 
-            // that.$.pointer.style.left = e.clientX + 'px';
-            // that.$.pointer.style.top = e.clientY - offsetTop + window.scrollY + 'px';
-
-            // that.$.xhr.request({
-            //   url: that.$.globals.values.url + 'mouse',
-            //   method: 'POST',
-            //   headers: {
-            //     'Content-Type': 'application/json'
-            //   },
-            //   body: JSON.stringify({
-            //     x: x,
-            //     y: y
-            //   })
-            // });
-          },false);
-
-          window.PolymerGestures.addEventListener(this.$.touchpad, 'tap', function(e) {
-            var offsetTop = 400;
-
-            var width = 360;
-            var height = 202.5;
-
-
-            var destWidth = 1680;
-            var destHeight = 1050;
-
-            var x = e.clientX/width * destWidth;
-            var y = (e.clientY - offsetTop)/height * destHeight;
-
             that.$.pointer.style.left = e.clientX + 'px';
-            that.$.pointer.style.top = e.clientY - offsetTop + window.scrollY + 'px';
+            that.$.pointer.style.top = e.clientY - offsetTop + el.scroller.scrollTop + 'px';
 
-            that.sendRequest('/tap', {
-              x: x,
-              y: y
+            that.$.xhr.request({
+              url: that.$.globals.values.url + 'mouse',
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json'
+              },
+              body: JSON.stringify({
+                x: x,
+                y: y
+              })
             });
           },false);
         }
